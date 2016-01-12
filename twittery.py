@@ -4,11 +4,16 @@ import time
 import random
 from sense_hat import SenseHat
 
+# app credentials in file untracked by git
+import twittery_cred
+from twittery_cred import tw_key, tw_secret
+
 tw_oauth_url = 'https://api.twitter.com/1.1/account/verify_credentials.json'
+tw_timeline_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
+tw_user = 'stuart_wagner'
+tw_quantity = '100'
 tw_url = 'https://api.twitter.com/1.1/search/tweets.json?q='
 tw_tag = 'bernie'
-tw_key = 'xBqDJAoiO5zeF1uFdzKt9S6s0'
-tw_secret = 'jGeo8KyHHhtVoaEyCGo6c1WSAjBRvtsfmFC86YjiTR8PZ3kCHu'
 tw_auth = OAuth1(tw_key, tw_secret)
 
 sense = SenseHat()
@@ -33,7 +38,7 @@ def auth_display_tweets():
 	return requests.get(tw_oauth_url, auth=tw_auth)
 
 def display_tweets():
-	r = requests.get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=stuart_wagner&count=100', auth=tw_auth)
+	r = requests.get(tw_timeline_url + '?screen_name= '+ tw_user + '&count=' + tw_quantity, auth=tw_auth)
 	for tweet in r.json():
 	  	#print(tweet['text'])
   		sense.show_message(tweet['text'], scroll_speed=.1, text_colour=random_rgb())
